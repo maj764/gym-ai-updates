@@ -5,6 +5,7 @@ import google.generativeai as genai
 import time
 import mysql.connector
 import re
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -23,9 +24,20 @@ def fetch_and_analyze():
     cursor = db.cursor()
 
     # PubMed scraping
-    query_url = ('https://pubmed.ncbi.nlm.nih.gov/?term=(EMG+OR+hypertrophy+OR+"muscle+activation")+AND+'
-                 '("resistance+training"+OR+bodybuilding+OR+strength)'
-                 '&sort=date&size=100&datetype=pdat&mindate=2024/04/13&maxdate=2024/05/13')
+
+# Get today's date and yesterday's date in YYYY/MM/DD format
+today = datetime.today()
+yesterday = today - timedelta(days=1)
+
+mindate = yesterday.strftime("%Y/%m/%d")
+maxdate = today.strftime("%Y/%m/%d")
+
+# Build PubMed query URL
+query_url = (
+    f'https://pubmed.ncbi.nlm.nih.gov/?term=(EMG+OR+hypertrophy+OR+"muscle+activation")+AND+'
+    f'("resistance+training"+OR+bodybuilding+OR+strength)'
+    f'&sort=date&size=100&datetype=pdat&mindate={mindate}&maxdate={maxdate}'
+)
 
     headers = {
         "User-Agent": "Mozilla/5.0",
