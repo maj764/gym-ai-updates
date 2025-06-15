@@ -15,10 +15,10 @@ def fetch_and_analyze():
 
     # Connect to MySQL
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="gym_ai_insights"
+        host="sql305.infinityfree.com",
+        user="if0_38981581",
+        password="Crusheranc1",
+        database="if0_38981581_gym_ai_insights"
     )
     cursor = db.cursor()
 
